@@ -1,0 +1,29 @@
+--- app/src/main/java/com/example/viewmodel/SummaryViewModel.kt
++++ app/src/main/java/com/example/viewmodel/SummaryViewModel.kt
+@@ -76,14 +76,17 @@
+             
+             val summary = summarizationService.generateSummary(updatedMat.textContent ?: "No text content available", subjectName)
+             
+-            // Cache the summary in DB
+-            val updatedMaterial = material.copy(textContent = safeText, summary = summary)
+-            repository.insert(updatedMaterial)
+-            
+-            _uiState.value = SummaryUiState.Success(
+-                summary = summary,
+-                materialTitle = material.title,
+-                subjectName = subjectName
+-            )
++            if (summary.startsWith("Error") || summary.startsWith("API Error") || summary.startsWith("Could not")) {
++                _uiState.value = SummaryUiState.Error(summary)
++            } else {
++                // Cache the summary in DB
++                val updatedMaterial = material.copy(textContent = safeText, summary = summary)
++                repository.insert(updatedMaterial)
++                
++                _uiState.value = SummaryUiState.Success(
++                    summary = summary,
++                    materialTitle = material.title,
++                    subjectName = subjectName
++                )
++            }
+         } catch (e: SecurityException) {

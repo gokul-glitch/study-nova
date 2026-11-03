@@ -1,0 +1,6 @@
+{
+  "name": "Study Nova",
+  "description": "An AI-powered study assistant that generates summaries, flashcards, and quizzes from notes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
